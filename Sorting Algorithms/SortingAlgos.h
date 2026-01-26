@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include "Dicitionary.h"
 
 void display(int arr[], int len){
 
@@ -56,20 +57,20 @@ void bubbleSort(int arr[], int len){
 }
 
 void insertionSort(int arr[], int len){
-    printf("INSERTION SORT: \n");
 
     for(int i = 1; i < len; i++){
-        int curr = arr[i];
+        int key = arr[i];
         int j = i - 1;
 
-        while(j >= 0 && arr[j] > curr){
+        while(j >= 0 && arr[j] > key){
             arr[j + 1] = arr[j];
             j--;
         }
-
-        arr[j + 1] = curr;
-     
+        
+        arr[j + 1] = key;
+        
     }
+
 }
 
 void mergeSort(int arr[], int len){
@@ -142,6 +143,56 @@ void countingSort2(int arr[], int len){
 
     free(countArr);
     free(ans);
+}
+
+// Using linked list to represent buckets
+void bucketSort(int arr[], int len){
+    
+    Dictionary D;
+
+    initDict(D);
+
+    for(int i = 0; i < len; i++){
+        insertSorted(D, arr[i]);       
+    }
+
+    int pos = 0;
+    for(int i = 0; i < len; i++){
+        // fix deleteion of nodes here
+        for(Node curr = D[i]; curr != NULL; ){
+            Node temp = curr;
+            arr[pos] = curr->val;
+            pos++;
+            curr = curr->link;
+            free(temp);
+        }
+    }
+    initDict(D);
+    displayDict(D);
+}
+
+void shellSort(int arr[], int len){
+    
+    int n = 2;
+    for(int gap = len / n; gap >= 1; gap = len / n){
+
+        int i = 0;
+        printf("%d\n", gap);
+        while(gap < len){
+
+            if(arr[gap] < arr[i]){
+                int temp = arr[gap];
+                arr[gap] = arr[i];
+                arr[i] = temp;
+            }
+    
+            i++;
+            gap++;
+        }
+
+
+        n *= 2;
+    }
 }
 
 #endif
