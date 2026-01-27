@@ -176,19 +176,33 @@ void shellSort(int arr[], int len){
     int n = 2;
     for(int gap = len / n; gap >= 1; gap = len / n){
 
-        int i = 0;
-        printf("%d\n", gap);
-        while(gap < len){
+        for(int i = 0; gap < len; gap++, i++){
 
-            if(arr[gap] < arr[i]){
-                int temp = arr[gap];
-                arr[gap] = arr[i];
-                arr[i] = temp;
+            int key = arr[gap];
+            int j = gap - 1;
+
+            while(j >= i && arr[j] > key){
+                arr[j + 1] = arr[j];
+                j--;
             }
-    
-            i++;
-            gap++;
+
+            arr[j + 1] = key;
+
         }
+
+        // int i = 0;
+        // printf("%d\n", gap);
+        // while(gap < len){
+
+        //     if(arr[gap] < arr[i]){
+        //         int temp = arr[gap];
+        //         arr[gap] = arr[i];
+        //         arr[i] = temp;
+        //     }
+    
+        //     i++;
+        //     gap++;
+        // }
 
 
         n *= 2;
