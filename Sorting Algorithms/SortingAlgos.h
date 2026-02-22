@@ -171,41 +171,64 @@ void bucketSort(int arr[], int len){
     displayDict(D);
 }
 
+// void shellSort(int arr[], int len){
+    
+//     int n = 2;
+//     for(int gap = len / n; gap >= 1; gap = len / n){
+
+//         for(int i = 0; gap < len; gap++, i++){
+
+//             int key = arr[gap];
+//             int j = gap - 1;
+
+//             while(j >= i && arr[j] > key){
+//                 arr[j + 1] = arr[j];
+//                 j--;
+//             }
+
+//             arr[j + 1] = key;
+
+//         }
+
+//         // int i = 0;
+//         // printf("%d\n", gap);
+//         // while(gap < len){
+
+//         //     if(arr[gap] < arr[i]){
+//         //         int temp = arr[gap];
+//         //         arr[gap] = arr[i];
+//         //         arr[i] = temp;
+//         //     }
+    
+//         //     i++;
+//         //     gap++;
+//         // }
+
+
+//         n *= 2;
+//     }
+// }
+
 void shellSort(int arr[], int len){
     
-    int n = 2;
-    for(int gap = len / n; gap >= 1; gap = len / n){
+    int gap = len / 2;
 
-        for(int i = 0; gap < len; gap++, i++){
+    while(gap >= 1){
+        for(int i = gap; i < len; i++){
+            int key = arr[i];
+            int j = i;
 
-            int key = arr[gap];
-            int j = gap - 1;
-
-            while(j >= i && arr[j] > key){
-                arr[j + 1] = arr[j];
-                j--;
+            while( j >= gap && arr[j - gap] > key){
+                arr[j] = arr[j - gap];
+                j -= gap;
             }
 
-            arr[j + 1] = key;
+            arr[j] = key;
+            display(arr, len);
 
         }
 
-        // int i = 0;
-        // printf("%d\n", gap);
-        // while(gap < len){
-
-        //     if(arr[gap] < arr[i]){
-        //         int temp = arr[gap];
-        //         arr[gap] = arr[i];
-        //         arr[i] = temp;
-        //     }
-    
-        //     i++;
-        //     gap++;
-        // }
-
-
-        n *= 2;
+        gap /= 2;
     }
 }
 
