@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<math.h>
 #include "Dicitionary.h"
 
 void display(int arr[], int len){
@@ -111,38 +112,44 @@ void countingSort2(int arr[], int len){
 
     int max = arr[0];
 
+    // find the max
     for(int i = 0; i < len; i++){
         if(arr[i] > max){
             max = arr[i];
         }
+
     }
+    // output array
+    int* output = malloc(sizeof(int) * len);
 
-    int* countArr = calloc(max + 1, sizeof(int));
+    // frequency array
+    int* freqArr = calloc(max + 1, sizeof(int));
 
+    // Increase index count on frequency array
     for(int i = 0; i < len; i++){
-        countArr[arr[i]]++;
+        freqArr[arr[i]]++;
     }
 
-    for(int i = 1; i < max + 1; i++){
-        countArr[i] = countArr[i - 1] + countArr[i];
-    }
-    printf("Cumulative Sum: ");
-    display(countArr, max + 1);
-
-    int* ans = malloc((len) * sizeof(int));
     
+    // Cumsum/prefixsum
+    for(int i = 0; i < max; i++){
+        freqArr[i + 1] += freqArr[i];
+    }
+
+    
+    // Counting Sort Process
     for(int i = len - 1; i >= 0; i--){
-        ans[countArr[arr[i]] - 1] = arr[i];
-        countArr[arr[i]]--;
-        // printf("%d %d %d ", i, arr[i] ,countArr[arr[i] - 1]);
+        output[freqArr[arr[i]] - 1] = arr[i];
+        freqArr[arr[i]]--;
     }
 
+    // output to input arr
     for(int i = 0; i < len; i++){
-        arr[i] = ans[i];
+        arr[i] = output[i];
     }
 
-    free(countArr);
-    free(ans);
+    free(freqArr);
+    free(output);
 }
 
 // Using linked list to represent buckets
@@ -173,40 +180,67 @@ void bucketSort(int arr[], int len){
 
 void shellSort(int arr[], int len){
     
-    int n = 2;
-    for(int gap = len / n; gap >= 1; gap = len / n){
-
-        int end = gap;
-        for(int i = 0; end < len; end++, i++){
-            int key = arr[end];
+    // start with getting the gap
+    int gap = len / 2;
+    while(gap > 0){
+        printf("%d\n ", gap);
+        // start the index at the gap position and increment till it reaches the end
+        for(int i = gap; i < len; i++){
+            //insertion sort
+            int key = arr[i];
             int j = i;
-
-            while(j >= 0 && arr[j] > key){
-                arr[j + gap] = arr[j];
-                j = (gap == 1) ? j - 1 : gap - j;
-                printf("%d\n", j);
+            while(j >= gap && arr[j - gap] > key){
+                arr[j] = arr[j - gap];
+                j -= gap;
             }
-
             arr[j] = key;
+            display(arr, len);
         }
-        // for(int i = 0; gap < len; gap++, i++){
-
-        //     int key = arr[gap];
-        //     int j = i;
-
-        //     while(j >= 0 && arr[j] > key){
-        //         arr[j + gap] = arr[j];
-        //         j = gap - j;
-        //         printf("%d\n", gap);
-        //     }
-
-        //     arr[j + gap] = key;
-
-        // }
-
-
-        n *= 2;
+        // decrease the gap
+        gap /= 2;
     }
 }
 
+void GnomeSort(int arr[], int len){
+
+    int curr = 1;
+
+    while(curr < len){
+        // if curr < prev switch and move backward
+        if(arr[curr] < arr[curr - 1] && curr > 0){
+            
+            int temp = arr[curr];
+            arr[curr] = arr[curr - 1];
+            arr[curr - 1] = temp;
+            curr--;
+
+        }else{
+            curr++;
+        }
+    }
+}
+
+void CombSort(int arr[], int len){
+
+    int gap = len;
+    bool swapped = true;
+
+    while (gap > 1 || swapped){
+        
+        gap = floor(gap/1.3);
+        if(gap < 1) gap = 1;
+        swapped = false;
+        
+        for(int i = gap; i < len; i++){
+            
+            if(arr[i] < arr[i - gap]){
+                int temp = arr[i];
+                arr[i] = arr[i - gap];
+                arr[i - gap] = temp;
+                swapped = true;
+            }
+        }
+    }
+
+}
 #endif

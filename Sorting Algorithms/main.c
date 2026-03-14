@@ -15,7 +15,8 @@ int main(){
     // selectionSort(arr, len);
     // countingSort2(arr, len);
     // bucketSort(arr, len);
-    shellSort(arr, len);
+    // GnomeSort(arr, len);
+    CombSort(arr, len);
     printf("Final: ");
     display(arr, len);
     
