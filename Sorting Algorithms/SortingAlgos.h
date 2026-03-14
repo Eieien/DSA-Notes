@@ -178,25 +178,25 @@ void bucketSort(int arr[], int len){
     displayDict(D);
 }
 
+
 void shellSort(int arr[], int len){
     
-    // start with getting the gap
     int gap = len / 2;
-    while(gap > 0){
-        printf("%d\n ", gap);
-        // start the index at the gap position and increment till it reaches the end
+
+    while(gap >= 1){
         for(int i = gap; i < len; i++){
-            //insertion sort
             int key = arr[i];
             int j = i;
-            while(j >= gap && arr[j - gap] > key){
+
+            while( j >= gap && arr[j - gap] > key){
                 arr[j] = arr[j - gap];
                 j -= gap;
             }
             arr[j] = key;
             display(arr, len);
+
         }
-        // decrease the gap
+
         gap /= 2;
     }
 }
