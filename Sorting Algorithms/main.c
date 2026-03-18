@@ -18,7 +18,8 @@ int main(){
     // bucketSort(arr, len);
     // GnomeSort(arr, len);
     // CombSort(arr, len);
-    MERGE_SORT(arr, 0, len - 1);
+    // MERGE_SORT(arr, 0, len - 1);
+    merge_sort(arr, 0, len - 1);
     printf("Final: ");
     display(arr, len);
     

@@ -75,6 +75,57 @@ void insertionSort(int arr[], int len){
 }
 
 
+
+void merge(int arr[], int l, int m, int r){
+
+    int s1 = m - l + 1;
+    int s2 = r - m;
+
+    int L[s1], R[s2];
+
+    for(int i = 0; i < s1; i++) L[i] = arr[l + i];
+    for(int i = 0; i < s2; i++) R[i] = arr[m + 1 + i];
+
+    int i = 0, j = 0, k = l;
+
+    while(i < s1 && j < s2){
+
+        if(L[i] < R[j]){
+            arr[k] = L[i];
+            i++;
+        }else{
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while(i < s1){
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while(j < s2){
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+
+
+}
+
+void merge_sort(int arr[], int l, int r){
+
+    if(l < r){
+        int m = l + (r - l) / 2;
+        merge_sort(arr, l, m);
+        merge_sort(arr, m + 1, r);
+        
+        merge(arr, l, m, r);
+    }
+}
+
 //w3 schools version
 void countingSort1(int arr[], int len){
     
