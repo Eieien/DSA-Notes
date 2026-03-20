@@ -254,4 +254,66 @@ void CombSort(int arr[], int len){
     }
 
 }
+
+int HPartition(int arr[], int l, int r){
+
+    int pivot = arr[l];
+    int i = l, j = r;
+
+    while(i < j){
+
+        while(arr[i] < pivot){
+            i++;
+        }
+
+        while(arr[j] > pivot){
+            j--;
+        }
+
+        int temp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = temp;
+
+    }
+
+    return j;
+
+
+}
+
+int LPartition(int arr[], int l, int r){
+    int pivot = r;
+
+    int j = l;
+    int i = j - 1;
+
+    while(j < pivot){
+        
+        if(arr[j] <= arr[pivot]){
+            i++;
+            int temp = arr[j];
+            arr[j] = arr[i];
+            arr[i] = temp;
+        }
+        j++;
+    }
+
+    int temp = arr[i + 1];
+    arr[i + 1] = arr[pivot];
+    arr[pivot] = temp;
+
+    return i + 1;
+}
+
+void QuickSort(int arr[], int l, int r){
+
+    if(l < r){
+        // int p = HPartition(arr, l, r);
+        int p = LPartition(arr, l, r);
+
+        // QuickSort(arr, l, p);
+        QuickSort(arr, l, p - 1);
+        QuickSort(arr, p + 1, r);
+    }
+}
 #endif
