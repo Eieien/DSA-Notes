@@ -29,27 +29,6 @@ void insertionSort(int arr[], int len){
 
 }
 
-void ShellSort(int arr[], int len){
-
-    int gap = len / 2;
-
-    while(gap >= 1){
-        
-        for(int i = gap; i < len; i++){
-
-            int j = i;
-            int key = arr[i];
-            while(j >= gap && arr[j - gap] > key){
-                arr[j] = arr[j - gap];
-                j -= gap;
-            }
-
-            arr[j] = key;
-        }
-        gap /= 2;
-    }
-
-}
 
 void SelectionSort(int arr[], int len){
 
@@ -71,39 +50,6 @@ void SelectionSort(int arr[], int len){
 
 }
 
-void CountingSort(int arr[], int len){
-    
-    int max = arr[0];
-
-    for(int i =0 ; i < len; i++){
-        if(max < arr[i]) max= arr[i];
-    }
-
-    int* freq = (int*)calloc(max + 1, sizeof(int));
-    int* output = (int*)malloc(sizeof(int) * len);
-
-    for(int i = 0; i < len; i++){
-        freq[arr[i]]++;
-    }
-    
-    // Prefix sum;
-    for(int i = 1; i <= max; i++){
-        freq[i] += freq[i - 1];
-    }
-
-
-    //Inserting Process
-    for(int i = len -1; i >= 0; i--){
-        output[freq[arr[i]] - 1] = arr[i];
-        freq[arr[i]]--;
-    }
-
-    for(int i = 0; i < len; i++){
-        arr[i] = output[i];
-    }
-    free(freq);
-    free(output);
-}
 
 void GnomeSort(int arr[], int len){
 
