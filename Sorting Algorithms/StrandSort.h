@@ -1,91 +1,79 @@
 #ifndef STRAND_H
 #define STRAND_H
-
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 #include<math.h>
+#include<limits.h>
 
-void displayStrandArray(int strand[], int strandSize){
-    printf("Strand Arr: ");
+#define SENTINAL 999
+
+void displayStrand(int strand[], int strandSize){
+    
     for(int i = 0; i < strandSize; i++){
         printf("%d ", strand[i]);
     }
     printf("\n");
 }
 
-void mergeResult(int strand[], int strandSize, int result[], int resultSize){
+void mergeStrand(int strand[], int strandSize, int result[], int resultSize){
 
-    int R[resultSize + strandSize];
-    int k = 0;
-    int i =0, j = 0;
+    int output[strandSize + resultSize];
+    
+    int i = 0, j = 0, k = 0;
 
-    while(i < resultSize && j < strandSize){
-        if(strand[j] < result[i]){
-            R[k] = strand[j];
-            k++;
-            j++;
+    while(i < strandSize && j < resultSize){
+        if(strand[i] < result[j]){
+            output[k++] = strand[i++];
         }else{
-            R[k] = result[i];
-            k++;
-            i++;
+            output[k++] = result[j++];
         }
     }
 
-    while(i < resultSize){
-        R[k++] = result[i];
-        i++;
+    while(i < strandSize){
+        output[k++] = strand[i++];
     }
 
-    while(j < strandSize){
-        R[k++] = strand[j];
-        j++;
+    while(j < resultSize){
+        output[k++] = result[j++];
     }
 
     for(int i = 0; i < k; i++){
-        result[i] = R[i];
+        result[i] = output[i];
     }
-
+    
 }
 
+
+
 void StrandSort(int arr[], int len){
-
-    int strand[100];
+    int strand[len];
     int strandSize = 0;
+    int remaining = len;
     int result[len];
-    int resultSize= 0;
-    int temp[100];
-    int n = len;
-    int tempSize = 0;
-    
-    while(n > 0){
-        // Get the first element
-        tempSize = 0;
+    int resultSize = 0;
+
+    while(remaining > 0){
+
+        int min = INT_MIN;
         strandSize = 0;
-        strand[strandSize++] = arr[0];
-        printf("First Strand: %d \n", strand[0]);
-        for(int i = 1; i < n; i++){
-            if(strand[strandSize - 1] < arr[i]){
+        for(int i = 0; i < len; i++){
+            // instead of shifting the elements, replace them with sentinel value to mark it as placed in the strand
+            if(arr[i] != INT_MAX && arr[i] > min){
                 strand[strandSize++] = arr[i];
-            }else{
-                temp[tempSize++] = arr[i]; 
+                min = strand[strandSize - 1];
+                arr[i] = INT_MAX;
+                remaining--;
             }
+
         }
-        
-        mergeResult(strand, strandSize, result, resultSize);
+        mergeStrand(strand, strandSize, result, resultSize);
         resultSize += strandSize;
-        n = tempSize;
-        for(int i =0; i < n; i++){
-            arr[i] = temp[i];
-        }
-        displayStrandArray(strand, strandSize);
-        displayStrandArray(result, resultSize);
-        displayStrandArray(arr, n);
-        printf("\n");
+    }
+    for(int i = 0; i < len; i++){
+        arr[i] = result[i];
     }
 
-    for(int i =0 ; i < len; i++){
-        arr[i] = result[i]; 
-    }
 }
 
 

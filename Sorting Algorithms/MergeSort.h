@@ -1,72 +1,52 @@
 #ifndef MERGESORT_H
 #define MERGESORT_H
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
 #include<math.h>
 
 void MERGE(int arr[], int l, int m, int r){
-    int i ,j, k;
-    int s1 = m - l + 1; // from left to middle
-    int s2 = r - m; // from middle to right
 
-    int L1[s1], L2[s2];
+    int n1 = m - l + 1;
+    int n2 = r - m;
 
-    for(int i = 0; i < s1; i++){
-        L1[i] = arr[l + i];
+    int L[n1], R[n2];
+
+    for(int i = 0 ; i < n1; i++){
+        L[i] = arr[l + i];
     }
 
-    for(int j = 0; j < s2; j++){
-        L2[j] = arr[m + 1 + j];
+    for(int i = 0; i < n2; i++){
+        R[i] = arr[m + i + 1];
     }
 
-    i = 0;
-    j = 0;
-    k = l;
+    int i =0, j = 0, k = l;
 
-    // Merge elements
-
-    while(i < s1 && j < s2){
-
-        if(L1[i] < L2[j]){
-            
-            arr[k] = L1[i];
-            i++;
-            
+    while(i < n1 && j < n2){
+        if(L[i] < R[j]){
+            arr[k++] = L[i++];
         }else{
-            arr[k] = L2[i];
-            j++;
+            arr[k++] = R[j++];
         }
-
-        k++;
     }
 
-    while(i < s1){
-        arr[k] = L1[i];
-        i++;
-        k++;
-    }
+    while(i < n1)arr[k++] = L[i++];
 
-    while(j < s2){
-        arr[k] = L2[j];
-        j++;
-        k++;
-    }
+    while(j < n2)arr[k++] = R[j++];
 
 }
 
-void MERGE_SORT(int arr[], int left, int right){
-    
-    if ( left < right){
-        int middle = left + (right - left) / 2;
-        // printf("%d %d %d\n",left, middle, right);
-        MERGE_SORT(arr, left, middle);
-        MERGE_SORT(arr, middle + 1, right);
+void MergeSort(int arr[], int l, int r){
 
-        // printf("MERGING");
-        MERGE(arr, left, middle, right);
+    if(l < r){
+
+        int m = (l + r) / 2;
+
+        MergeSort(arr, l, m);
+        MergeSort(arr, m + 1, r);
+        MERGE(arr, l, m ,r);
     }
+
 }
 
 #endif

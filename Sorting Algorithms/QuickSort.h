@@ -1,74 +1,75 @@
-#ifndef QUICKSORT_H
-#define QUICKSORT_H
-
+#ifndef QUICK_H
+#define QUICK_H
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
 #include<math.h>
 
+int LomutoPartition(int arr[], int l, int r){
 
-int HoarePartition(int arr[], int left, int right){
-
-    int pivot = arr[left];
-    int i = left;
-    int j = right;
+        int pivot = r;
+        int j = l, i = l -1;
     
-    while(i < j){
-        
-        while(arr[i] < pivot){
+        while(j < r){
+            if(arr[j] <= arr[pivot]){
+                i++;
+                int temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
+            }
+    
+            j++;
+        }
+    
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[pivot];
+        arr[pivot] = temp;
+    
+        return i + 1;
+
+}
+
+int HoarePartition(int arr[], int l, int r){
+    int pivot = arr[l];
+    int j = r + 1;
+    int i = l - 1;
+
+    while(1){
+
+        do{
             i++;
-        }
-        
-        while(arr[j] > pivot){
+
+        }while(arr[i] < pivot);
+
+        do{
+
             j--;
+        }while(arr[j] > pivot);
+
+        if(i >= j){
+            return j;
         }
-        
+
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
-    printf("%d %d %d \n", pivot, arr[i], arr[j]);
 
     return j;
 }
 
-int LomutoPartition(int arr[], int left, int right){
-    int pivot = right;
-    int j = left;
-    int i = j - 1;
+void QuickSort(int arr[], int l, int r){
 
-    while(j < pivot){
-        
-        if(arr[j] <= arr[pivot]){
-            i++;
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-
-        j++;
-    }
-    printf("PARTIONING\n");
-    int temp = arr[i + 1];
-    arr[i + 1] = arr[pivot];
-    arr[pivot] = temp;
-
-    return i + 1; // pivot index
-}
-
-void quickSort(int arr[], int left, int right){
+    if(l < r){
+        // int partition = LomutoPartition(arr, l, r);
+        int partition = HoarePartition(arr, l, r);
     
-    if(left < right){
-        // int partition = HoarePartition(arr, left, right);
+        QuickSort(arr, l, partition );
+        // QuickSort(arr, l, partition - 1);
+        QuickSort(arr, partition + 1, r);
 
-        int partition = LomutoPartition(arr, left, right);
-
-        printf("quick Sorting\n");
-
-        quickSort(arr, left, partition - 1);
-        quickSort(arr, partition + 1, right);
     }
-    
+
 }
 
 
